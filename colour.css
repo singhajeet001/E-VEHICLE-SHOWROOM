@@ -1,0 +1,7 @@
+body {
+    background: #000000; /* pure black */
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    color: #eee;
+    font-family: 'Roboto', sans-serif;
+  }
+  

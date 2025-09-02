@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.6;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #e60000;
+    padding: 1rem 2rem;
+    color: white;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+  }
+  
+  nav a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  nav a:hover {
+    color: #ffd700;
+  }
+  
+  .hero {
+    background: url('images/hero-bike-banner.jpg') center/cover no-repeat;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
+  
+  .hero .btn {
+    background: #e60000;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  
+  .about, .bikes, .form-section, .contact {
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  
+  .bike-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .bike-card {
+    background: #f4f4f4;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 250px;
+  }
+  
+  .bike-card img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  form {
+    max-width: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  form input, form select, form button {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+  
+  form button {
+    background: #e60000;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  footer {
+    background: #222;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  

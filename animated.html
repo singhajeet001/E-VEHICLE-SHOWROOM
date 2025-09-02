@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us with 3D Bike Model</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #about-us {
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+    #bike3d {
+      width: 100%;
+      max-width: 600px;
+      height: 400px;
+      border: 1px solid #ddd;
+      margin: 0 auto;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <section id="about-us">
+    <h2>About Us</h2>
+    <p>We are passionate about bikes and technology. Here’s a cool 3D model of a bike for you to check out!</p>
+  </section>
+
+  <div id="bike3d"></div>
+
+  <!-- Three.js and loaders -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/examples/js/controls/OrbitControls.js"></script>
+
+  <script>
+    const container = document.getElementById('bike3d');
+
+    // Scene setup
+    const scene = new THREE.Scene();
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 1.5, 3);
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(5, 10, 7);
+    scene.add(directionalLight);
+
+    // Controls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // Load a free bike model from Poly Haven (hosted externally)
+    const loader = new THREE.GLTFLoader();
+    loader.load(
+      'https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models@master/2.0/Bicycle/glTF/Bicycle.gltf',
+      function (gltf) {
+        gltf.scene.scale.set(1, 1, 1);
+        scene.add(gltf.scene);
+        animate();
+      },
+      undefined,
+      function (error) {
+        console.error('Error loading model:', error);
+      }
+    );
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+</body>
+</html>
