@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Vehicle Showroom</title>
+  <link href="hero.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: #000000;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      animation: fadeInDown 2s ease-out;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.8;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffffff;
+    }
+
+    .features,
+    .catalogue {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .feature,
+    .catalogue-item {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 2rem;
+      border-radius: 12px;
+      transition: transform 0.5s ease, background 0.5s ease;
+      backdrop-filter: blur(5px);
+      animation: fadeInUp 1s ease;
+    }
+
+    .feature:hover,
+    .catalogue-item:hover {
+      transform: translateY(-10px);
+      background: rgba(146, 8, 8, 0.3);
+    }
+
+    .feature h3,
+    .catalogue-item h3 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .feature img,
+    .catalogue-item img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .chat-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #00ffcc;
+      color: #670707;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    canvas {
+      display: block;
+      margin: 2rem auto;
+      background: rgba(125, 5, 5, 0.05);
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 0.9rem;
+      margin-top: 2rem;
+    }
+
+    @keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .feature h3,
+      .catalogue-item h3 {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>E-Vehicle Showroom</h1>
+    <p>Smart, electric bikes with AI, GPS, AR, and more.</p>
+  </header>
+  <nav>
+    <a href="bike1.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="catalogue.html">Catalogue</a>
+    <a href="admin.html">Admin</a>
+    <a href="forum.html">Community</a>
+  </nav>
+
+  <canvas id="bikeCanvas" width="300" height="150"></canvas>
+
+  <section class="features">
+    <div class="feature">
+      <img
+        src="data:image/jpeg;base64,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"
+        alt="AI Bike">
+      <h3>AI Ride Optimization</h3>
+      <p>Analyzes your route and riding style in real time using machine learning.</p>
+      <a href="ai.html">AI Ride Optimization</a>
+    </div>
+    <div class="feature">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFn9a8Gy-oH0tm2CuoPJXkDhjcFe1Yk3wg4Q&s"
+        alt="IoT Diagnostics">
+      <h3>IoT Diagnostics</h3>
+      <p>the use of connected sensors, devices, and data analytics to monitor, detect, and troubleshoot issues within
+        systems and equipment in real time</p>
+      <a href="iot.html">IoT Diagnostics</a>
+    </div>
+    <div class="feature">
+      <img
+        src="https://lh7-rt.googleusercontent.com/docsz/AD_4nXeGsssB0CevQrpf5zVJEGNNrwQP210zTTUcOlw8Wn1Q4SjYfn0ZKFs5Y9RJketCFXRB_yXqocMqxngtfLPUvc6eFQdyLuH41GeAavugL79Yo6BvmNirgodGHatZqGcp8UrUKRuq1Z52gRitEy1d7QGsHWHs?key=NOihyKMVqfS9K8LzYtKtOg"
+        alt="AR Ride">
+      <h3>AR Virtual Test Ride</h3>
+      <p>Try bikes virtually with augmented reality before you buy.</p>
+
+      <a href="ar.html">AR Virtual Test Ride </a>
+    </div>
+    <div class="feature">
+      <img src="https://www.datasciencecentral.com/wp-content/uploads/2022/09/9705.jpg_wh860.jpg"
+        alt="Blockchain Ownership">
+      <h3>Blockchain Ownership</h3>
+      <p>Secure NFT-based bike ownership records, globally verifiable.</p>
+      <a href="blockchain.html">Blockchain Ownership</a>
+    </div>
+    <div class="feature">
+      <img src="https://etranssolutions.com/wp-content/uploads/2024/07/blog1.jpg" alt="GPS Tracking">
+      <h3>Global GPS Tracking</h3>
+      <p>Track and lock your bike anywhere using our global satellite network.</p>
+      <a href="gps.html">Global GPS Tracking</a>
+    </div>
+    <div class="feature">
+      <img src="https://preview.free3d.com/img/2017/04/2408148294371903188/usy3goje.jpg" alt="3D Viewer">
+      <h3>3D Bike Viewer</h3>
+      <p>Rotate and explore bike models in interactive 3D.</p>
+      <a href="3d.html">3D Bike Viewer</a>
+    </div>
+  </section>
+
+  <section id="catalogue" class="catalogue">
+    <div class="catalogue-item">
+      <img
+        src="https://cdn.bikedekho.com/processedimages/heroelectric/heroelectric-optima/source/heroelectric-optima60f512a4cd47f.jpg?imwidth=880"
+        alt="Red Bike">
+      <h3>Electric Optima</h3>
+      <p>High-speed performance bike with smart diagnostics and built-in GPS.</p>
+      <a href="glamour.html">Electric Optima</a>
+    </div>
+    <div class="catalogue-item">
+      <img src="https://bd.gaadicdn.com/processedimages/hero-electric/flash/640X309/flash60f5114ec5322.jpg"
+        alt="Black Bike">
+      <h3>Electric Flash</h3>
+      <p>Stealth design with AR heads-up display and blockchain registration.</p>
+      <a href="splendor.html">Electric Flash</a>
+    </div>
+    <div class="catalogue-item">
+      <img
+        src="https://cdn.bikedekho.com/processedimages/heroelectric/hero-electric-photon/source/hero-electric-photon60f513d69a903.jpg"
+        alt="Green Bike">
+      <h3>Electric Photon</h3>
+      <p>Eco-friendly hybrid model optimized by AI for energy efficiency.</p>
+      <a href="pro.html">Electric Photon</a>
+    </div>
+  </section>
+  <footer>
+    &copy; 2025 E.V Showroom — All rights reserved.
+  </footer>
+  <!-- ✅ About Section -->
+  <section id="about" style="padding: 2rem; text-align: center; max-width: 1000px; margin: auto;">
+    <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">About Us</h2>
+    <p style="font-size: 1.2rem; line-height: 1.6; color: #ccc;">
+      Welcome to the E Vehicle Showroom — a fusion of cutting-edge technology and legendary design.
+      We bring you AI-driven, eco-friendly, and connected bikes that redefine smart mobility. Our platform
+      offers immersive experiences like AR test rides, 3D model viewing, global GPS tracking, and secure blockchain
+      ownership.
+      With Hero, your journey becomes intelligent, sustainable, and truly futuristic.
+    </p>
+    <iframe width="100%" height="500"
+      src="https://sketchfab.com/models/434cdbdfad924bcd80c1f79858d887ae/embed?autostart=1&autospin=1&ui_hint=2"
+      frameborder="0" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen></iframe>
+  </section>
+  <button class="chat-button" onclick="alert('AI Chat Assistant Coming Soon!')">
+    Chat with AI
+  </button>
+  <script>
+    const canvas = document.getElementById('bikeCanvas');
+    const ctx = canvas.getContext('2d');
+    const particles = [];
+    const particleCount = 50;
+
+    // Particle class
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.radius = Math.random() * 2 + 1;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.color = 'rgba(0, 255, 204, 0.7)';
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    // Initialize particles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    // Animation loop with HERO text
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Update and draw particles
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      // Draw HERO text
+      ctx.font = 'bold 80px Arial';
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Optional: text glow
+      ctx.shadowColor = '#ff0000'; // red
+      ctx.shadowBlur = 20;
+
+      ctx.fillText('HERO', canvas.width / 2, canvas.height / 2);
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+  <section id="contact"
+    style="background-color: #111; color: #fff; padding: 3rem 1rem; font-family: 'Segoe UI', sans-serif;">
+    <div
+      style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem;">
+
+      <!-- Contact Info -->
+      <div style="flex: 1; min-width: 250px;">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Get in Touch</h2>
+        <p><strong>📍 Address:</strong><br>E-vehicle Showroom</E-vehicle>, Shukul bazar Amethi, India</p>
+        <p><strong>📞 Phone:</strong><br><a href="tel:+919555725060" style="color: #0af;">+917607637770</a></p>
+        <p><strong>✉️ Email:</strong><br><a href="mailto:support@herobikeshowroom.com"
+            style="color: #0af;">support@herobikeshowroom.com</a></p>
+        <p><strong>⏰ Business Hours:</strong><br>Mon - Sun: 9:00 AM - 7:00 PM<br>Sat: Closed</p>
+      </div>
+
+      <!-- Contact Form -->
+      <div style="flex: 1; min-width: 300px;">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Send Us a Message</h2>
+        <form style="display: flex; flex-direction: column; gap: 0.8rem;">
+          <input type="text" placeholder="Your Name" required
+            style="padding: 0.5rem; border: none; border-radius: 5px;">
+          <input type="email" placeholder="Your Email" required
+            style="padding: 0.5rem; border: none; border-radius: 5px;">
+          <textarea placeholder="Your Message" rows="4" required
+            style="padding: 0.5rem; border: none; border-radius: 5px;"></textarea>
+          <button type="submit"
+            style="padding: 0.6rem; background-color: #0af; color: #000; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Send
+            Message</button>
+        </form>
+      </div>
+
+      <!-- Embedded Google Map -->
+      <div style="flex: 1 1 100%; margin-top: 2rem;">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Find Us Here</h2>
+        <iframe src="https://www.google.com/maps?q=Hero+Showroom+India&output=embed" width="100%" height="300"
+          frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- Social Media Links -->
+    <div style="text-align: center; margin-top: 3rem;">
+      <p>Follow us on:</p>
+      <a href="https://facebook.com" target="_blank" style="margin: 0 10px; color: #0af;">Facebook</a> |
+      <a href="https://instagram.com" target="_blank" style="margin: 0 10px; color: #0af;">Instagram</a> |
+      <a href="https://twitter.com" target="_blank" style="margin: 0 10px; color: #0af;">Twitter (X)</a>
+    </div>
+  </section>
+</body>
+
+</html>
