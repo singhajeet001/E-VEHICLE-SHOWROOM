@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Global GPS Tracking</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 30px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0e0e0e;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    h1 {
+      color: #00d9ff;
+      font-size: 2.5em;
+    }
+
+    h2 {
+      color: #00ffaa;
+      margin-top: 40px;
+    }
+
+    p {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #00d9ff;
+      color: #0e0e0e;
+      font-weight: bold;
+      padding: 12px 20px;
+      margin: 10px 5px;
+      font-size: 1em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #00aacc;
+    }
+
+    #location {
+      margin-top: 15px;
+      font-size: 1.2em;
+      color: #00ffcc;
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 960px;
+      height: 480px;
+      margin-top: 40px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.9em;
+      color: #888;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Global GPS Tracking</h1>
+  <p>
+    <strong>Global GPS tracking</strong> enables real-time location monitoring of people, vehicles, or assets anywhere in the world using satellite-based positioning systems.
+    It supports navigation, logistics, safety, and asset management by providing accurate latitude and longitude coordinates.
+  </p>
+
+  <h2>Your Current Location</h2>
+  <button onclick="getLocation()">Get GPS Location</button>
+  <button onclick="showOnMap()">Show on Google Maps</button>
+  <button onclick="copyCoords()">Copy Coordinates</button>
+  <p id="location">Waiting for location...</p>
+
+  <h2>3D GPS Map Visualization</h2>
+  <p><em>Watch how GPS satellites visualize our global positioning network in 3D.</em></p>
+  <iframe 
+    title="3D GPS Visualization"
+    src="https://www.google.com/maps?q=Hero+Showroom+India&output=embed"
+    allowfullscreen>
+  </iframe>
+
+  <footer>
+    &copy; 2025 GeoNav Technologies | Empowering Global Movement
+  </footer>
+
+  <script>
+    let currentLat = null;
+    let currentLon = null;
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        document.getElementById("location").innerText = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+      currentLat = position.coords.latitude.toFixed(6);
+      currentLon = position.coords.longitude.toFixed(6);
+      document.getElementById("location").innerText = `Latitude: ${currentLat}°, Longitude: ${currentLon}°`;
+    }
+
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          document.getElementById("location").innerText = "User denied the request for Geolocation.";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          document.getElementById("location").innerText = "Location information is unavailable.";
+          break;
+        case error.TIMEOUT:
+          document.getElementById("location").innerText = "The request to get user location timed out.";
+          break;
+        default:
+          document.getElementById("location").innerText = "An unknown error occurred.";
+      }
+    }
+
+    function showOnMap() {
+      if (currentLat && currentLon) {
+        // ✅ CORRECT GOOGLE MAPS URL
+        const mapURL = `https://www.google.com/maps/@${currentLat},${currentLon},15z`;
+        window.open(mapURL, '_blank');
+      } else {
+        alert("Please get your location first.");
+      }
+    }
+
+    function copyCoords() {
+      if (currentLat && currentLon) {
+        const coords = `Latitude: ${currentLat}, Longitude: ${currentLon}`;
+        navigator.clipboard.writeText(coords).then(() => {
+          alert("Coordinates copied to clipboard!");
+        });
+      } else {
+        alert("No coordinates to copy. Please get your location first.");
+      }
+    }
+  </script>
+</body>
+</html>

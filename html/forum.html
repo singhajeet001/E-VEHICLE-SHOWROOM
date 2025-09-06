@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bike Forum | Kishan Automobiles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    /* ===== GLOBAL ===== */
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #000;
+      color: #fff;
+    }
+    header {
+      background: #0a0a23;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      background: rgba(255,255,255,0.05);
+      padding: 12px;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: #00ffcc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a.active, nav a:hover {
+      color: #fff;
+    }
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    /* ===== NEW POST FORM ===== */
+    .new-post {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+    .new-post h2 {
+      margin-bottom: 15px;
+      color: #00ffcc;
+    }
+    .new-post input, .new-post textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background: #111;
+      color: #fff;
+      font-size: 1em;
+    }
+    .new-post button {
+      background: linear-gradient(90deg, #00ffcc, #00cc99);
+      color: #000;
+      font-weight: bold;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .new-post button:hover {
+      transform: scale(1.05);
+    }
+    /* ===== POSTS ===== */
+    .post {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    .post:hover { transform: translateY(-5px); }
+    .post h3 {
+      margin: 0 0 10px;
+      font-size: 1.3em;
+      color: #ff4444;
+    }
+    .post p { margin: 0 0 10px; color: #ddd; }
+    .post small { color: #aaa; }
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255,255,255,0.1);
+      margin-top: 40px;
+      font-size: 0.9em;
+    }
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      .post h3 { font-size: 1.1em; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🏍️ Bike Forum</h1>
+    <p>Share experiences, ask questions & join the community!</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="catalogue.html">Catalogue</a>
+    <a href="forum.html" class="active">Forum</a>
+    <a href="admin.html">Admin</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <main>
+    <!-- New Post Form -->
+    <div class="new-post">
+      <h2>✍️ Start a New Topic</h2>
+      <form id="postForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="text" id="title" placeholder="Post Title" required>
+        <textarea id="message" rows="5" placeholder="What's on your mind?" required></textarea>
+        <button type="submit">Post</button>
+      </form>
+    </div>
+
+    <!-- Forum Posts -->
+    <div id="posts">
+      <div class="post">
+        <h3>Best bike for daily commuting?</h3>
+        <p>I’m looking for a bike under ₹1L that’s fuel-efficient and comfortable for city rides. Suggestions?</p>
+        <small>Posted by <b>Ankit</b> on 30-Aug-2025</small>
+      </div>
+
+      <div class="post">
+        <h3>Review: Hero Xtreme 160R</h3>
+        <p>Just bought the Xtreme 160R last week. Great pickup and handling! Mileage is decent too. Anyone else using it?</p>
+        <small>Posted by <b>Pooja</b> on 29-Aug-2025</small>
+      </div>
+
+      <div class="post">
+        <h3>Bike service cost too high?</h3>
+        <p>Authorized service centers seem costly. Any trusted local garages in Delhi NCR?</p>
+        <small>Posted by <b>Ravi</b> on 28-Aug-2025</small>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Kishan Automobiles | Bike Forum
+  </footer>
+
+  <script>
+    // Form Submit Handler
+    document.getElementById("postForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const title = document.getElementById("title").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (!name || !title || !message) {
+        alert("⚠️ Please fill in all fields!");
+        return;
+      }
+
+      // Current Date
+      const date = new Date();
+      const formattedDate = date.toLocaleDateString("en-GB", {
+        day: "2-digit", month: "short", year: "numeric"
+      });
+
+      // Create new post
+      const newPost = document.createElement("div");
+      newPost.classList.add("post");
+      newPost.innerHTML = `
+        <h3>${title}</h3>
+        <p>${message}</p>
+        <small>Posted by <b>${name}</b> on ${formattedDate}</small>
+      `;
+
+      // Add post to top
+      const postsContainer = document.getElementById("posts");
+      postsContainer.prepend(newPost);
+
+      // Clear form
+      document.getElementById("postForm").reset();
+    });
+  </script>
+</body>
+</html>
